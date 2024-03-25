@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MessengerClone.Commands;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,8 +10,8 @@ namespace MessengerClone.ViewModels
 {
     public class SignUpViewModel : ViewModelBase
     {
-		private int _username;
-		public int Username
+		private string _username;
+		public string Username
 		{
 			get
 			{
@@ -23,8 +24,8 @@ namespace MessengerClone.ViewModels
 			}
 		}
 
-		private int _email;
-		public int Email
+		private string _email;
+		public string Email
 		{
 			get
 			{
@@ -37,8 +38,8 @@ namespace MessengerClone.ViewModels
 			}
 		}
 
-        private int _password;
-        public int Password
+        private string _password;
+        public string Password
         {
             get
             {
@@ -51,8 +52,8 @@ namespace MessengerClone.ViewModels
             }
         }
 
-        private int _confirmpassword;
-        public int ConfirmPassword
+        private string _confirmpassword;
+        public string ConfirmPassword
         {
             get
             {
@@ -64,7 +65,17 @@ namespace MessengerClone.ViewModels
                 OnPropertyChanged(nameof(ConfirmPassword));
             }
         }
-        ICommand RegisterCommand { get;}  
+        public ICommand SignUpCommand { get;}  
+        
+        public bool ValidateInput()
+        {
+            return Password == ConfirmPassword;
+        }
+
+        public SignUpViewModel()
+        {
+           SignUpCommand = new SignUpCommand(this);
+        }
     }
 
 }

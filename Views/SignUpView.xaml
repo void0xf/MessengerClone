@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MessengerClone.Views"
+             xmlns:validation="clr-namespace:MessengerClone.Validations"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="#FF2C2C2C">
@@ -15,35 +16,49 @@
                        HorizontalAlignment="Center" 
                        Margin="0,0,0,30"/>
             <Border Background="#FF333333" CornerRadius="5" Margin="0,0,0,15">
-                <TextBox Foreground="White" 
-                             BorderBrush="{x:Null}" 
-                             Background="Transparent"
-                             Text="{Binding Username}"/>
+                <TextBox
+                     Foreground="White"
+                     BorderBrush="{x:Null}" 
+                     Padding="0,5"
+                     Background="Transparent"
+                     HorizontalAlignment="Left"
+                     Width="300">
+                    <TextBox.Text>
+                        <Binding Path="Email"
+                             UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validation:EmailValidation />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+
+
             </Border>
             <Border Background="#FF333333" CornerRadius="5" Margin="0,0,0,15">
                 <TextBox Foreground="White" 
                          BorderBrush="{x:Null}" 
                          Background="Transparent"
-                         Text="{Binding Email}"/>
+                         Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"/>
             </Border>
             <Border Background="#FF333333" CornerRadius="5" Margin="0,0,0,15">
                 <TextBox Foreground="White" 
                              BorderBrush="{x:Null}" 
                              Background="Transparent"
-                             Text="{Binding Password}"/>
+                             Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}"/>
             </Border>
             <Border Background="#FF333333" CornerRadius="5" Margin="0,0,0,15">
                 <TextBox Foreground="White" 
                              BorderBrush="{x:Null}" 
                              Background="Transparent"
-                             Text="{Binding ConfirmPassword}"/>
+                             Text="{Binding ConfirmPassword, UpdateSourceTrigger=PropertyChanged}"/>
             </Border>
-            <Button Content="Register" 
+            <Button Content="Sign Up" 
                     Background="#FF004A7C" 
                     Foreground="White" 
                     BorderBrush="{x:Null}"
                     Margin="0,0,0,15"
-                    Command="{Binding RegisterCommand}">
+                    Command="{Binding SignUpCommand}">
                 <Button.Style>
                     <Style TargetType="Button">
                         <Setter Property="Template">

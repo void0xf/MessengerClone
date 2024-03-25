@@ -10,6 +10,7 @@
         ResizeMode="NoResize"
         >
     <Grid>
-        <views:SignUpView />
+        <views:SignUpView DataContext="{Binding CurrentViewModel}" />
     </Grid>
+    
 </Window>

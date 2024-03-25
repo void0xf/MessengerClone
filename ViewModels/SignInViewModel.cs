@@ -22,7 +22,7 @@ namespace MessengerClone.ViewModels
 				OnPropertyChanged(nameof(Email));
 			}
 		}
-
+		
         private string _password;
         public string Password
         {

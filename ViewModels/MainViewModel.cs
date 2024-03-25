@@ -10,7 +10,7 @@ namespace MessengerClone.ViewModels
 
         public MainViewModel()
         {
-            CurrentViewModel = new WelcomeViewModel();
+            CurrentViewModel = new SignUpViewModel();
         }
     }
 }

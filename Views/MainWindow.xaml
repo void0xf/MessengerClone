@@ -5,12 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MessengerClone"
         xmlns:views="clr-namespace:MessengerClone.Views"
+        xmlns:vms="clr-namespace:MessengerClone.ViewModels"
         mc:Ignorable="d"
         Title="MainWindow" Height="900" Width="1100"
         ResizeMode="NoResize"
         >
     <Grid>
-        <views:SignUpView DataContext="{Binding CurrentViewModel}" />
+        <Grid.Resources>
+            <DataTemplate DataType="{x:Type vms:WelcomeViewModel}">
+                <views:WelcomeView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vms:SignInViewModel}">
+                <views:SignInView />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vms:SignUpViewModel}">
+                <views:SignUpView />
+            </DataTemplate>
+        </Grid.Resources>
+
+        <ContentControl Content="{Binding CurrentViewModel}" />
     </Grid>
     
 </Window>

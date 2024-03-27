@@ -1,4 +1,5 @@
 ﻿using MessengerClone.Commands;
+using MessengerClone.Store;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,10 +72,12 @@ namespace MessengerClone.ViewModels
         {
             return Password == ConfirmPassword;
         }
-
-        public SignUpViewModel()
+        
+        public ICommand NavigateToSignInViewModel { get; }
+        public SignUpViewModel(NavigationStore navigationStore, Func<SignInViewModel> createViewModel)
         {
            SignUpCommand = new SignUpCommand(this);
+           NavigateToSignInViewModel = new NavigateCommand(navigationStore, createViewModel);
         }
     }
 

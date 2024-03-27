@@ -75,12 +75,17 @@
                     </Style>
                 </Button.Style>
             </Button>
-            <TextBlock Text="Already have an account? Log in" 
+            <TextBlock Text="Forgot Your Password" 
                        Foreground="#FF6A6A6A" 
                        HorizontalAlignment="Center"
-                       Cursor="Hand"/>
+                       Cursor="Hand"
+                       
+                       />
             <Separator Background="#FF333333" 
                        Margin="0,30,0,30"/>
+
+            <Button Content="Already have Account" Command="{Binding NavigateToSignInViewModel}">
+            </Button>
         </StackPanel>
     </Grid>
 </UserControl>

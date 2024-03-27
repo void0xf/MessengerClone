@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MessengerClone.Commands;
+using MessengerClone.Store;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,6 +39,11 @@ namespace MessengerClone.ViewModels
             }
         }
         public ICommand SumbitCommand { get; }
+        public ICommand NavigateToSignUpCommand { get; }
+        public SignInViewModel(NavigationStore navigationStore, Func<SignUpViewModel> createViewModel)
+        {
+            NavigateToSignUpCommand = new NavigateCommand(navigationStore, createViewModel);
+        }
     }
 
 

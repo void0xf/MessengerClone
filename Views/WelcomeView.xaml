@@ -35,7 +35,8 @@
                     Background="#FF3B5599"
                     Foreground="White"
                     BorderBrush="{x:Null}"
-                    Cursor="Hand">
+                    Cursor="Hand"
+                    Command="{Binding SwitchToSignInCommand}">
             </Button>
 
             <Button Content="Sign up"                    
@@ -47,7 +48,9 @@
                     Background="#FF333333"
                     Foreground="White"
                     BorderBrush="{x:Null}"
-                    Cursor="Hand">
+                    Cursor="Hand"
+                    Command="{Binding SwitchToSignUpCommand}"
+                    >
             </Button>
         </StackPanel>
     </Grid>

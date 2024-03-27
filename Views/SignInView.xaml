@@ -58,7 +58,8 @@
                     Background="#FF333333" 
                     Foreground="White" 
                     BorderBrush="{x:Null}"
-                    Margin="0,0,0,15">
+                    Margin="0,0,0,15"
+                    Command="{Binding NavigateToSignUpCommand}">
                 <Button.Style>
                     <Style TargetType="Button">
                         <Setter Property="Template">

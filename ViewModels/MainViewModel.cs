@@ -1,4 +1,5 @@
-﻿using MessengerClone.ViewModels;
+﻿using MessengerClone.Store;
+using MessengerClone.ViewModels;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -6,11 +7,19 @@ namespace MessengerClone.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        public ViewModelBase CurrentViewModel { get; }
+        private readonly NavigationStore _navigationStore;
 
-        public MainViewModel()
+        public MainViewModel(NavigationStore navigationStore)
         {
-            CurrentViewModel = new SignUpViewModel();
+            _navigationStore = navigationStore;
+            _navigationStore.CurrentViewModelChange += OnCurrentViewModelChange;
         }
+
+        private void OnCurrentViewModelChange()
+        {
+            OnPropertyChanged(nameof(CurrentViewModel));    
+        }
+
+        public ViewModelBase CurrentViewModel => _navigationStore.CurrentViewModel;
     }
 }

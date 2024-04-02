@@ -40,9 +40,12 @@ namespace MessengerClone.ViewModels
         }
         public ICommand SumbitCommand { get; }
         public ICommand NavigateToSignUpCommand { get; }
+        public ICommand NavigateToMessengerApp { get;}
         public SignInViewModel(NavigationStore navigationStore, Func<SignUpViewModel> createViewModel)
         {
+            Func<MessengerViewModel> app = () => { return new MessengerViewModel(navigationStore, createViewModel); };
             NavigateToSignUpCommand = new NavigateCommand(navigationStore, createViewModel);
+            NavigateToMessengerApp = new NavigateCommand(navigationStore, app);
         }
     }
 

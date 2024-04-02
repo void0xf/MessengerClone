@@ -9,23 +9,31 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="900" Width="1100"
         ResizeMode="NoResize"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
         >
-    <Grid>
-        <Grid.Resources>
-            <DataTemplate DataType="{x:Type vms:WelcomeViewModel}">
-                <views:WelcomeView />
-            </DataTemplate>
 
-            <DataTemplate DataType="{x:Type vms:SignInViewModel}">
-                <views:SignInView />
-            </DataTemplate>
+            <Grid>
+                    <Grid.Resources>
+                        <DataTemplate DataType="{x:Type vms:WelcomeViewModel}">
+                            <views:WelcomeView />
+                        </DataTemplate>
 
-            <DataTemplate DataType="{x:Type vms:SignUpViewModel}">
-                <views:SignUpView />
-            </DataTemplate>
-        </Grid.Resources>
+                        <DataTemplate DataType="{x:Type vms:SignInViewModel}">
+                            <views:SignInView />
+                        </DataTemplate>
 
-        <ContentControl Content="{Binding CurrentViewModel}" />
-    </Grid>
-    
+                        <DataTemplate DataType="{x:Type vms:SignUpViewModel}">
+                            <views:SignUpView />
+                        </DataTemplate>
+
+                        <DataTemplate DataType="{x:Type vms:MessengerViewModel}">
+                            <views:MessengerView />
+                        </DataTemplate>
+                    </Grid.Resources>
+
+                    <ContentControl Content="{Binding CurrentViewModel}" />
+                </Grid>
+
 </Window>

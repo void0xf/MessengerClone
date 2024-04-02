@@ -76,6 +76,7 @@
                     </Style>
                 </Button.Style>
             </Button>
+            <Button Command="{Binding NavigateToMessengerApp}">TestME</Button>
         </StackPanel>
     </Grid>
 </UserControl>

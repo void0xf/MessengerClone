@@ -1,0 +1,58 @@
+﻿<UserControl x:Class="MessengerClone.Views.MessengerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MessengerClone.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             Background="Transparent"
+             >
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.05*"/>
+            <ColumnDefinition Width="0.1*"/>
+            <ColumnDefinition Width="0.6*" />
+        </Grid.ColumnDefinitions>
+        <!-- First element -->
+        <Border Grid.Column="0" Background="LightGray">
+            <!-- Content of the first element -->
+        </Border>
+    
+        <!-- Second element -->
+        <Border Grid.Column="1" Background="LightBlue">
+            <ListBox DockPanel.Dock="Left" Width="250" Background="LightGray"
+             ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Width="50" Height="50" Source="{Binding Photo}" Margin="5"/>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
+                                <TextBlock Text="{Binding LastMessage}" FontStyle="Italic"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Border>
+
+        <!-- Third element -->
+        <Border Grid.Column="2" Background="Red">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding SelectedMessages}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Margin="5">
+                                <!-- Customize message bubble here -->
+                                <TextBlock Text="{Binding Content}" Background="LightBlue" Padding="10" Margin="5"/>
+                                <TextBlock Text="{Binding Sender.Name}" Background="LightBlue" Padding="10" Margin="5"/>
+                                <!-- Add more details as needed -->
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Border>
+    </Grid>
+</UserControl>

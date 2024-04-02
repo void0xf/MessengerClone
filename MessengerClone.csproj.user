@@ -6,4 +6,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Views\MessengerView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\MessengerView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
 </Project>

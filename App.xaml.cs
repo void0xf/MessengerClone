@@ -1,8 +1,10 @@
 ﻿using System.Configuration;
 using System.Data;
 using System.Windows;
+using MessengerClone.DbModels;
 using MessengerClone.Store;
 using MessengerClone.ViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace MessengerClone
 {
@@ -29,6 +31,11 @@ namespace MessengerClone
             };
             MainWindow.Show();
             base.OnStartup(e);
+
+            using (var context = new MessengerDbContext())
+            {
+                context.Database.EnsureCreated();
+            }
         }
 
         private SignUpViewModel CreateSignUpViewModel()

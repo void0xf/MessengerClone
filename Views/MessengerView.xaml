@@ -15,44 +15,47 @@
             <ColumnDefinition Width="0.6*" />
         </Grid.ColumnDefinitions>
         <!-- First element -->
-        <Border Grid.Column="0" Background="LightGray">
+        <Border Grid.Column="0" Background="Transparent">
             <!-- Content of the first element -->
         </Border>
     
         <!-- Second element -->
-        <Border Grid.Column="1" Background="LightBlue">
-            <ListBox DockPanel.Dock="Left" Width="250" Background="LightGray"
-             ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}">
+        <Grid Grid.Column="1" Background="Black">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.1*" />
+                <RowDefinition Height="0.07*" />
+                <RowDefinition  />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Background="Wheat">Chats</TextBlock>
+            <TextBox Grid.Row="1" Background="Orange" Text="{Binding SearchPeople, UpdateSourceTrigger=PropertyChanged}" />
+            <ListBox Grid.Row="2" DockPanel.Dock="Left" Width="Auto" Background="Gray"
+             ItemsSource="{Binding SidebarUsersToDisplay}" SelectedItem="{Binding SelectedUserFromSiebar}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <Image Width="50" Height="50" Source="{Binding Photo}" Margin="5"/>
                             <StackPanel Orientation="Vertical">
                                 <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
-                                <TextBlock Text="{Binding LastMessage}" FontStyle="Italic"/>
+                                <TextBlock Text="{Binding Surname}" FontStyle="Italic"/>
                             </StackPanel>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-        </Border>
+        </Grid>
 
         <!-- Third element -->
-        <Border Grid.Column="2" Background="Red">
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <ItemsControl ItemsSource="{Binding SelectedMessages}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal" Margin="5">
-                                <!-- Customize message bubble here -->
-                                <TextBlock Text="{Binding Content}" Background="LightBlue" Padding="10" Margin="5"/>
-                                <TextBlock Text="{Binding Sender.Name}" Background="LightBlue" Padding="10" Margin="5"/>
-                                <!-- Add more details as needed -->
-                            </StackPanel>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </ScrollViewer>
+        <Border Grid.Column="2" Background="DarkSlateGray">
+            <ItemsControl ItemsSource="{Binding SelectedUserFromSiebar}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <TextBlock Background="Aqua" Foreground="AliceBlue">Messages:</TextBlock>
+                            <!-- Assuming each item in SelectedUsersFromSidebar has a property called Surname -->
+                            <TextBlock Text="{Binding SelectedUserFromSiebar.Name}" Background="LightBlue" Padding="10" Margin="5"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </Border>
     </Grid>
 </UserControl>

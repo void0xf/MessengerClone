@@ -1,4 +1,5 @@
 ﻿using MessengerClone.Services;
+using MessengerClone.Store;
 using MessengerClone.ViewModels;
 using Microsoft.EntityFrameworkCore.Metadata;
 using System;
@@ -15,12 +16,16 @@ public class SignInCommand : CommandBase
 {
     private readonly SignInViewModel _viewSignInModel;
     private readonly AuthService _authService;
+    private readonly UserService _userService;
+    private readonly ICommand _navigateToApp;
     
     public SignInCommand(SignInViewModel signInViewModel, ICommand NavigateToApp)
     {
         _viewSignInModel = signInViewModel;
         _authService = new AuthService();
         signInViewModel.PropertyChanged += OnViewModelPropertyChagned;
+        _navigateToApp = NavigateToApp;
+        _userService = new UserService();
     }
 
 
@@ -44,7 +49,8 @@ public class SignInCommand : CommandBase
         bool isUserValid = _authService.CheckCredentials(_viewSignInModel.Email, _viewSignInModel.Password);
         if (isUserValid)
         {
-            
+            UserStore.Instance.CurrentUser = _userService.GetUserFromEmail(_viewSignInModel.Email);  
+            _navigateToApp.Execute(null);
         }
     }
 }

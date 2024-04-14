@@ -33,19 +33,30 @@
                     </TextBox.Text>
                 </TextBox>
 
-
             </Border>
-            <Border Background="#FF333333" CornerRadius="5" Margin="0,0,0,15">
-                <TextBox Foreground="White" 
-                         BorderBrush="{x:Null}" 
-                         Background="Transparent"
-                         Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"/>
-            </Border>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.5*"/>
+                    <ColumnDefinition Width="0.5*"/>
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" Background="#FF333333" CornerRadius="5" Margin="0,0,10,15">
+                    <TextBox Foreground="White"
+                 BorderBrush="{x:Null}" 
+                 Background="Transparent"
+                 Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+                </Border>
+                <Border Grid.Column="1" Background="#FF333333" CornerRadius="5" Margin="0,0,0,15">
+                    <TextBox Foreground="White"
+                 BorderBrush="{x:Null}" 
+                 Background="Transparent"
+                 Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}"/>
+                </Border>
+            </Grid>
             <Border Background="#FF333333" CornerRadius="5" Margin="0,0,0,15">
                 <TextBox Foreground="White" 
                              BorderBrush="{x:Null}" 
                              Background="Transparent"
-                             Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}"/>
+                             Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Margin="155,4,-155,-4"/>
             </Border>
             <Border Background="#FF333333" CornerRadius="5" Margin="0,0,0,15">
                 <TextBox Foreground="White" 

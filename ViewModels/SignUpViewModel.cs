@@ -11,31 +11,46 @@ namespace MessengerClone.ViewModels
 {
     public class SignUpViewModel : ViewModelBase
     {
-		private string _username;
-		public string Username
+
+        private string _email;
+        public string Email
+        {
+            get
+            {
+                return _email;
+            }
+            set
+            {
+                _email = value;
+                OnPropertyChanged(nameof(Email));
+            }
+        }
+
+        private string _name;
+		public string Name
 		{
 			get
 			{
-				return _username;
+				return _name;
 			}
 			set
 			{
-				_username = value;
-				OnPropertyChanged(nameof(Username));
+				_name = value;
+				OnPropertyChanged(nameof(Name));
 			}
 		}
 
-		private string _email;
-		public string Email
+		private string _lastname;
+		public string LastName
 		{
 			get
 			{
-				return _email;
+				return _lastname;
 			}
 			set
 			{
-				_email = value;
-				OnPropertyChanged(nameof(Email));
+				_lastname = value;
+				OnPropertyChanged(nameof(LastName));
 			}
 		}
 
@@ -66,14 +81,10 @@ namespace MessengerClone.ViewModels
                 OnPropertyChanged(nameof(ConfirmPassword));
             }
         }
+
         public ICommand SignUpCommand { get;}  
-        
-        public bool ValidateInput()
-        {
-            return Password == ConfirmPassword;
-        }
-        
         public ICommand NavigateToSignInViewModel { get; }
+
         public SignUpViewModel(NavigationStore navigationStore, Func<SignInViewModel> createViewModel)
         {
            SignUpCommand = new SignUpCommand(this);

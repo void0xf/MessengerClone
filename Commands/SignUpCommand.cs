@@ -1,4 +1,5 @@
-﻿using MessengerClone.ViewModels;
+﻿using MessengerClone.Services;
+using MessengerClone.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,20 +14,22 @@ namespace MessengerClone.Commands
     {
    
         private readonly SignUpViewModel _signUpviewModel;
+        private readonly AuthService _authservice;
         public SignUpCommand(SignUpViewModel signUpViewModel) 
         {
             if(signUpViewModel != null) 
             { 
                 _signUpviewModel = signUpViewModel;
                 signUpViewModel.PropertyChanged += OnViewModelPropertyChagned;
+                _authservice = new AuthService();
 
             }
         }
 
         private void OnViewModelPropertyChagned(object sender, PropertyChangedEventArgs e)
         {
-            if(e.PropertyName == nameof(SignUpViewModel.Email) ||
-                e.PropertyName == nameof(SignUpViewModel.Username) ||
+            if(e.PropertyName == nameof(SignUpViewModel.Name) ||
+                e.PropertyName == nameof(SignUpViewModel.LastName) ||
                 e.PropertyName == nameof(SignUpViewModel.Password) ||
                 e.PropertyName == nameof(SignUpViewModel.ConfirmPassword)
                 
@@ -39,17 +42,17 @@ namespace MessengerClone.Commands
         public override bool CanExecute(object parameter)
         {
             return 
-                !string.IsNullOrEmpty(_signUpviewModel.Email) && 
-                !string.IsNullOrEmpty(_signUpviewModel.Username) &&
+                !string.IsNullOrEmpty(_signUpviewModel.Name) && 
+                !string.IsNullOrEmpty(_signUpviewModel.LastName) &&
                 !string.IsNullOrEmpty(_signUpviewModel.Password) &&
                 !string.IsNullOrEmpty(_signUpviewModel.ConfirmPassword) &&
+                _signUpviewModel.Password == _signUpviewModel.ConfirmPassword &&
                 base.CanExecute(parameter);
         }
 
-        public override void Execute(object parameter)
+        public async override void Execute(object parameter)
         {
-            Debug.WriteLine(nameof(SignUpViewModel.Email));
-            //SomeStuff to Sign Up User
+            var res = await _authservice.CreatNewUser(_signUpviewModel.Email, _signUpviewModel.Name, _signUpviewModel.LastName, _signUpviewModel.Password);
         }
 
     }

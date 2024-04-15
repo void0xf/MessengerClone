@@ -1,6 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
+using MessengerClone.Commands;
 using MessengerClone.DbModels;
 using MessengerClone.Services;
 using MessengerClone.Store;
@@ -11,16 +13,26 @@ namespace MessengerClone.ViewModels
     {
         private string _searchPeople;
         private ObservableCollection<User> _sidebarUsersToDisplay;
+        private ObservableCollection<Message> _messages;
+        private ConversationServices _conversationServices;
         private User _selectedUserFromSidebar;
+        private string _messageToSend;
         private UserService _userService;
+        private MessageServices _messageServices;
+        public ICommand SendMessage {get;}
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public MessengerViewModel(NavigationStore navigationStore, Func<SignUpViewModel> createViewModel)
         {
             _userService = new UserService();
+            _messageServices = new MessageServices();
+            _conversationServices = new ConversationServices();
+            
             UpdateSidebarUsers();
+            
             _selectedUserFromSidebar = _sidebarUsersToDisplay.FirstOrDefault();
+            SendMessage = new SendMessageCommand(this);
         }
 
         public string SearchPeople
@@ -36,14 +48,50 @@ namespace MessengerClone.ViewModels
                 }
             }
         }
-        public User SelectedUserFromSiebar
+        public User SelectedUserFromSidebar
         {
             get { return _selectedUserFromSidebar; }
             set
             {
-                _selectedUserFromSidebar = value;
-                OnPropertyChanged(nameof(SearchPeople));
+                if (_selectedUserFromSidebar != value)
+                {
+                    _selectedUserFromSidebar = value;
+                    LoadMessagesForSelectedUser(); // Load messages when a new user is selected
+                    OnPropertyChanged(nameof(SelectedUserFromSidebar));
+                }
             }
+        }
+
+        public ObservableCollection<Message> Messages
+        {
+            get { return _messages; }
+            set
+            {
+                _messages = value;
+                OnPropertyChanged(nameof(Messages));
+            }
+        }
+
+        private void LoadMessagesForSelectedUser()
+        {
+            if (_selectedUserFromSidebar != null)
+            {
+
+                int conversationId = _conversationServices.GetConversationIdFromGuestParticipantId(SelectedUserFromSidebar.ID);
+                var messages = _messageServices.GetMessagesForConversation(conversationId);
+                Messages = new ObservableCollection<Message>(messages);
+            }
+            else
+            {
+                Messages = new ObservableCollection<Message>();
+            }
+        }
+
+        public string MessageToSend
+        {
+            get {return _messageToSend;}
+            set { _messageToSend = value;
+                    OnPropertyChanged(nameof(MessageToSend));}
         }
 
         public ObservableCollection<User> SidebarUsersToDisplay

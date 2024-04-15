@@ -6,56 +6,67 @@
              xmlns:local="clr-namespace:MessengerClone.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             Background="Transparent"
-             >
+             Background="Transparent">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.05*"/>
-            <ColumnDefinition Width="0.1*"/>
-            <ColumnDefinition Width="0.6*" />
+            <ColumnDefinition Width="200"/>
+            <!-- Fixed width for sidebar -->
+            <ColumnDefinition Width="*"/>
+            <!-- Main chat area -->
         </Grid.ColumnDefinitions>
-        <!-- First element -->
-        <Border Grid.Column="0" Background="Transparent">
-            <!-- Content of the first element -->
-        </Border>
-    
-        <!-- Second element -->
-        <Grid Grid.Column="1" Background="Black">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="0.1*" />
-                <RowDefinition Height="0.07*" />
-                <RowDefinition  />
-            </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Background="Wheat">Chats</TextBlock>
-            <TextBox Grid.Row="1" Background="Orange" Text="{Binding SearchPeople, UpdateSourceTrigger=PropertyChanged}" />
-            <ListBox Grid.Row="2" DockPanel.Dock="Left" Width="Auto" Background="Gray"
-             ItemsSource="{Binding SidebarUsersToDisplay}" SelectedItem="{Binding SelectedUserFromSiebar}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <StackPanel Orientation="Vertical">
-                                <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
-                                <TextBlock Text="{Binding Surname}" FontStyle="Italic"/>
-                            </StackPanel>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </Grid>
 
-        <!-- Third element -->
-        <Border Grid.Column="2" Background="DarkSlateGray">
-            <ItemsControl ItemsSource="{Binding SelectedUserFromSiebar}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal" Margin="5">
-                            <TextBlock Background="Aqua" Foreground="AliceBlue">Messages:</TextBlock>
-                            <!-- Assuming each item in SelectedUsersFromSidebar has a property called Surname -->
-                            <TextBlock Text="{Binding SelectedUserFromSiebar.Name}" Background="LightBlue" Padding="10" Margin="5"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+        <!-- Sidebar for chat list -->
+        <Border Grid.Column="0" Background="Black">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBox Text="{Binding SearchPeople, UpdateSourceTrigger=PropertyChanged}"/>
+                <ListBox Grid.Row="1" Background="Gray" ItemsSource="{Binding SidebarUsersToDisplay}" SelectedItem="{Binding SelectedUserFromSidebar}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Margin="5">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding Surname}" FontStyle="Italic"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
         </Border>
+
+        <!-- Main chat area -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- Displaying the selected user's name at the top of the messages -->
+            <TextBlock Grid.Row="0" Background="Wheat" Text="{Binding SelectedUserFromSidebar.Name, UpdateSourceTrigger=PropertyChanged}" FontWeight="Bold" FontSize="16" Padding="5" />
+
+            <ScrollViewer Grid.Row="1" Background="Red" VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding Messages}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Margin="5">
+                                <TextBlock Text="{Binding Content}" Background="LightBlue" Padding="10" Margin="5"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+
+
+            <!-- Message input area -->
+            <StackPanel Grid.Row="2" Orientation="Horizontal" Background="DarkGray">
+                <TextBox Text="{Binding MessageToSend, UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5" VerticalAlignment="Center" Padding="5" />
+                <Button Command="{Binding SendMessage}" Content="Send" Margin="5" VerticalAlignment="Center" />
+            </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

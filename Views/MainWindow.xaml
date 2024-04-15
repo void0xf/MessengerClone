@@ -8,10 +8,6 @@
         xmlns:vms="clr-namespace:MessengerClone.ViewModels"
         mc:Ignorable="d"
         Title="MainWindow" Height="900" Width="1100"
-        ResizeMode="NoResize"
-        WindowStyle="None"
-        AllowsTransparency="True"
-        Background="Transparent"
         >
 
             <Grid>

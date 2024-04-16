@@ -27,6 +27,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <TextBox Text="{Binding SearchPeople, UpdateSourceTrigger=PropertyChanged}"/>
                 <ListBox Grid.Row="1" Background="Gray" ItemsSource="{Binding SidebarUsersToDisplay}" SelectedItem="{Binding SelectedUserFromSidebar}" d:ItemsSource="{d:SampleData ItemCount=5}">
@@ -45,6 +46,14 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
+                <StackPanel Grid.Row="3" Background="#cccccc" Margin="2">
+                    <TextBlock Text="{Binding CurrentUser.Email}" Foreground="White" FontWeight="Bold"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding CurrentUser.Name}" Foreground="#555"/>
+                        <TextBlock Text=" "/>
+                        <TextBlock Text="{Binding CurrentUser.Surname}" Foreground="#555"/>
+                    </StackPanel>
+                </StackPanel>
             </Grid>
         </Border>
 

@@ -24,6 +24,7 @@ namespace MessengerClone.ViewModels
         private SignalRChatService _signalRChatService;
         public ICommand SendMessage {get;}
         public int CurrentUserId => UserStore.Instance.CurrentUser.ID;
+        public User CurrentUser => UserStore.Instance.CurrentUser;
         private string _lastMessageText;
 
 
@@ -153,6 +154,7 @@ namespace MessengerClone.ViewModels
             int conversationId = _conversationServices.GetConversationIdFromGuestParticipantId(SelectedUserFromSidebar.ID);
             var messages = _messageServices.GetMessagesForConversation(conversationId);
             Messages = new ObservableCollection<Message>(messages);
+            UpdateSidebarUsers();
 
         }
     }

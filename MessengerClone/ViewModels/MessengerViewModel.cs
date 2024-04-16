@@ -35,20 +35,20 @@ namespace MessengerClone.ViewModels
             _userService = new UserService();
             _messageServices = new MessageServices();
             _conversationServices = new ConversationServices();   
-
+            
             _signalRChatService = new SignalRChatService(HubConnectionStore.Instance.Connection);
             _signalRChatService.Connect().ContinueWith(task =>
                {
                    if (task.Exception != null)
                    {
-                       Debug.WriteLine( "Unable to connect to color chat hub");
+                       Debug.WriteLine( "Unable to connect to chat hub");
                    }
                });
             _signalRChatService.MessageReceived += ChatServices_MessageReceived;
 
 
             UpdateSidebarUsers();
-            _selectedUserFromSidebar = _sidebarUsersToDisplay.FirstOrDefault();
+            SelectedUserFromSidebar = _sidebarUsersToDisplay.FirstOrDefault();
             SendMessage = new SendMessageCommand(this, _signalRChatService);
         }
 
@@ -71,12 +71,9 @@ namespace MessengerClone.ViewModels
             get { return _selectedUserFromSidebar; }
             set
             {
-                if (_selectedUserFromSidebar != value)
-                {
                     _selectedUserFromSidebar = value;
-                    LoadMessagesForSelectedUser(); // Load messages when a new user is selected
+                    LoadMessagesForSelectedUser();
                     OnPropertyChanged(nameof(SelectedUserFromSidebar));
-                }
             }
         }
         public string LastMessageText

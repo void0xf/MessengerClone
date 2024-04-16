@@ -29,8 +29,11 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <TextBox Text="{Binding SearchPeople, UpdateSourceTrigger=PropertyChanged}"/>
-                <ListBox Grid.Row="1" Background="Gray" ItemsSource="{Binding SidebarUsersToDisplay}" SelectedItem="{Binding SelectedUserFromSidebar}" d:ItemsSource="{d:SampleData ItemCount=5}">
+                <StackPanel>
+                    <TextBlock Text="Chats" Foreground="#bbbbbb" Margin="5"/>
+                    <TextBox Text="{Binding SearchPeople, UpdateSourceTrigger=PropertyChanged}" Background="#444" BorderBrush="Black" BorderThickness="1" Margin="2"/>
+                </StackPanel>
+                <ListBox Grid.Row="1" Background="Gray" ItemsSource="{Binding SidebarUsersToDisplay}" SelectedItem="{Binding SelectedUserFromSidebar}" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="2">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Vertical" Margin="5">
@@ -64,8 +67,9 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-
-            <TextBlock Grid.Row="0" Background="#111" Text="{Binding SelectedUserFromSidebar.Name, UpdateSourceTrigger=PropertyChanged}" Foreground="#dddddd" FontWeight="Bold" FontSize="16" Padding="5" />
+            <StackPanel>
+                <TextBlock Background="#111" Text="{Binding SelectedUserFromSidebar.Name, UpdateSourceTrigger=PropertyChanged}" Foreground="#dddddd" FontWeight="Bold" FontSize="16" Padding="5" />
+            </StackPanel>
 
             <ScrollViewer Grid.Row="1" Background="#111" VerticalScrollBarVisibility="Auto">
                 <ItemsControl ItemsSource="{Binding Messages}">

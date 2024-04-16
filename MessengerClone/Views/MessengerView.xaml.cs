@@ -24,5 +24,6 @@ namespace MessengerClone.Views
         {
             InitializeComponent();
         }
+
     }
 }

@@ -4,15 +4,20 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MessengerClone.Views"
+             xmlns:converters="clr-namespace:MessengerClone.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Background="Transparent">
+    <UserControl.Resources>
+        <converters:UserIdToAlignmentConverter x:Key="UserIdToAlignmentConverter"/>
+        <converters:UserIdToColorConverter     x:Key="UserIdToColorConverter"/>
+        <converters:UserIdToLastMessageConverter x:Key="UserIdToLastMessageConverter"/>
+
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
-            <!-- Fixed width for sidebar -->
             <ColumnDefinition Width="*"/>
-            <!-- Main chat area -->
         </Grid.ColumnDefinitions>
 
         <!-- Sidebar for chat list -->
@@ -23,13 +28,17 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <TextBox Text="{Binding SearchPeople, UpdateSourceTrigger=PropertyChanged}"/>
-                <ListBox Grid.Row="1" Background="Gray" ItemsSource="{Binding SidebarUsersToDisplay}" SelectedItem="{Binding SelectedUserFromSidebar}">
+                <ListBox Grid.Row="1" Background="Gray" ItemsSource="{Binding SidebarUsersToDisplay}" SelectedItem="{Binding SelectedUserFromSidebar}" d:ItemsSource="{d:SampleData ItemCount=5}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal" Margin="5">
-                                <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Vertical" Margin="5">
+                                <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
-                                    <TextBlock Text="{Binding Surname}" FontStyle="Italic"/>
+                                    <TextBlock Text=" "/>
+                                    <TextBlock Text="{Binding Surname}" FontWeight="Bold"/>
+                                </StackPanel>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding ID, Converter={StaticResource UserIdToLastMessageConverter}}" FontWeight="Bold"/>
                                 </StackPanel>
                             </StackPanel>
                         </DataTemplate>
@@ -46,21 +55,22 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <!-- Displaying the selected user's name at the top of the messages -->
-            <TextBlock Grid.Row="0" Background="Wheat" Text="{Binding SelectedUserFromSidebar.Name, UpdateSourceTrigger=PropertyChanged}" FontWeight="Bold" FontSize="16" Padding="5" />
+            <TextBlock Grid.Row="0" Background="#111" Text="{Binding SelectedUserFromSidebar.Name, UpdateSourceTrigger=PropertyChanged}" Foreground="#dddddd" FontWeight="Bold" FontSize="16" Padding="5" />
 
-            <ScrollViewer Grid.Row="1" Background="Red" VerticalScrollBarVisibility="Auto">
+            <ScrollViewer Grid.Row="1" Background="#111" VerticalScrollBarVisibility="Auto">
                 <ItemsControl ItemsSource="{Binding Messages}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal" Margin="5">
-                                <TextBlock Text="{Binding Content}" Background="LightBlue" Padding="10" Margin="5"/>
+                            <StackPanel HorizontalAlignment="{Binding SenderId, Converter={StaticResource UserIdToAlignmentConverter}}">
+                                <Border Background="{Binding SenderId, Converter={StaticResource UserIdToColorConverter}}" CornerRadius="12" Padding="10" Margin="5">
+                                    <TextBlock Text="{Binding Content}" Foreground="#dddddd" Background="{Binding SenderId, Converter={StaticResource UserIdToColorConverter}}"/>
+                                </Border>
                             </StackPanel>
+
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </ScrollViewer>
-
 
             <!-- Message input area -->
             <StackPanel Grid.Row="2" Orientation="Horizontal" Background="DarkGray">

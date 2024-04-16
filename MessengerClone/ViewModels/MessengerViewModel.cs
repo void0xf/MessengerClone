@@ -1,11 +1,13 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using MessengerClone.Commands;
 using MessengerClone.DbModels;
 using MessengerClone.Services;
 using MessengerClone.Store;
+using Microsoft.AspNetCore.SignalR.Client;
 
 namespace MessengerClone.ViewModels
 {
@@ -19,7 +21,11 @@ namespace MessengerClone.ViewModels
         private string _messageToSend;
         private UserService _userService;
         private MessageServices _messageServices;
+        private SignalRChatService _signalRChatService;
         public ICommand SendMessage {get;}
+        public int CurrentUserId => UserStore.Instance.CurrentUser.ID;
+        private string _lastMessageText;
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -27,13 +33,24 @@ namespace MessengerClone.ViewModels
         {
             _userService = new UserService();
             _messageServices = new MessageServices();
-            _conversationServices = new ConversationServices();
-            
+            _conversationServices = new ConversationServices();   
+
+            _signalRChatService = new SignalRChatService(HubConnectionStore.Instance.Connection);
+            _signalRChatService.Connect().ContinueWith(task =>
+               {
+                   if (task.Exception != null)
+                   {
+                       Debug.WriteLine( "Unable to connect to color chat hub");
+                   }
+               });
+            _signalRChatService.MessageReceived += ChatServices_MessageReceived;
+
+
             UpdateSidebarUsers();
-            
             _selectedUserFromSidebar = _sidebarUsersToDisplay.FirstOrDefault();
-            SendMessage = new SendMessageCommand(this);
+            SendMessage = new SendMessageCommand(this, _signalRChatService);
         }
+
 
         public string SearchPeople
         {
@@ -60,6 +77,13 @@ namespace MessengerClone.ViewModels
                     OnPropertyChanged(nameof(SelectedUserFromSidebar));
                 }
             }
+        }
+        public string LastMessageText
+        {
+            get {return _lastMessageText;}
+            set {
+
+                }
         }
 
         public ObservableCollection<Message> Messages
@@ -123,6 +147,13 @@ namespace MessengerClone.ViewModels
                 var ActiveConversationsParcipants = _userService.GetConversationParcipants(UserStore.Instance.CurrentUser);
                 SidebarUsersToDisplay = new ObservableCollection<User>(ActiveConversationsParcipants);
             }
+        }
+        private void ChatServices_MessageReceived(Message message)
+        {
+            int conversationId = _conversationServices.GetConversationIdFromGuestParticipantId(SelectedUserFromSidebar.ID);
+            var messages = _messageServices.GetMessagesForConversation(conversationId);
+            Messages = new ObservableCollection<Message>(messages);
+
         }
     }
 }

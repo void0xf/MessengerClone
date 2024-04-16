@@ -40,6 +40,7 @@ namespace MessengerClone.Services
 
             var ActiveConversationList = GetActiveConversations(user);
             var ActiveConversationIdsList = new List<int>();
+            if(ActiveConversationList == null) return UsersList;
             foreach(var activeConversation in ActiveConversationList)
             {
                 ActiveConversationIdsList.Add(activeConversation.ConversationId);

@@ -38,5 +38,32 @@ namespace MessengerClone.Services
 
             return messages;
         }
+        public Message GetLastMessage(int myId, int otherUserId)
+        {
+            // First, find the ConversationId where both users are participants
+            var conversationId = _dbContext.Participants
+                .Where(p => p.UserId == myId)
+                .Select(p => p.ConversationId)
+                .Intersect(
+                    _dbContext.Participants
+                    .Where(p => p.UserId == otherUserId)
+                    .Select(p => p.ConversationId)
+                ).FirstOrDefault();
+
+            if (conversationId == default)
+            {
+                // No conversation found between the two users
+                return null;
+            }
+
+            // Retrieve the last message from the found conversation
+            var lastMessage = _dbContext.Messages
+                .Where(m => m.ConversationID == conversationId)
+                .OrderByDescending(m => m.Timestamp)
+                .FirstOrDefault();
+
+            return lastMessage;
+        }
+
     }
 }

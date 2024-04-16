@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.SignalR;
 
-namespace MessengerClone.DbModels
+namespace SignalRServer.Hubs
 {
     public class Message
     {
@@ -20,6 +15,20 @@ namespace MessengerClone.DbModels
 
         public ICollection<MessageReadStatus> MessageReadStatuses { get; set; }
         public ICollection<MessageReactionStatus> MessageReactionStatuses { get; set; }
-
     }
+
+    public class User() {};
+    public class MessageReadStatus() { };
+    public class MessageReactionStatus() { };
+    public class Conversation() { };
+
+    public class ChatHub : Hub
+    {
+        public async Task SendMessage(Message message)
+        {
+            await Clients.All.SendAsync("ReceiveMessage", message);
+        }
+    }
+
+
 }

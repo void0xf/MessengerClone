@@ -4,13 +4,11 @@ using System.Windows;
 using MessengerClone.DbModels;
 using MessengerClone.Store;
 using MessengerClone.ViewModels;
+using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.EntityFrameworkCore;
 
 namespace MessengerClone
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : Application
     {
         private readonly NavigationStore _navigationStore;
@@ -23,6 +21,8 @@ namespace MessengerClone
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            //HubConnection connection = new HubConnectionBuilder().WithUrl("http://localhost:5045").Build();
+
             _navigationStore.CurrentViewModel = new WelcomeViewModel(_navigationStore, CreateSignUpViewModel, CreateSignInViewModel); 
             
             MainWindow = new MainWindow()

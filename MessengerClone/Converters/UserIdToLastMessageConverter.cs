@@ -20,9 +20,12 @@ namespace MessengerClone.Converters
             {
                 MessageServices messageServices = new MessageServices();
                 Message LastMessage = messageServices.GetLastMessage(UserStore.Instance.CurrentUser.ID, userId);
-                string Youstring = LastMessage.SenderId == UserStore.Instance.CurrentUser.ID ? "You:" : "";
-                string LastMessageString = $"{Youstring} {CropStringWithEllipsis(LastMessage.Content, 10)} {GetFormattedDate(LastMessage.Timestamp, "en-US")}";
-                return LastMessageString;
+                if(LastMessage != null)
+                {
+                    string Youstring = LastMessage.SenderId == UserStore.Instance.CurrentUser.ID ? "You:" : "";
+                    string LastMessageString = $"{Youstring} {CropStringWithEllipsis(LastMessage.Content, 10)} {GetFormattedDate(LastMessage.Timestamp, "en-US")}";
+                    return LastMessageString;
+                }
             }
             return "";
         }

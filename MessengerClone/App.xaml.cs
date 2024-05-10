@@ -21,8 +21,6 @@ namespace MessengerClone
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            //HubConnection connection = new HubConnectionBuilder().WithUrl("http://localhost:5045").Build();
-
             _navigationStore.CurrentViewModel = new WelcomeViewModel(_navigationStore, CreateSignUpViewModel, CreateSignInViewModel); 
             
             MainWindow = new MainWindow()

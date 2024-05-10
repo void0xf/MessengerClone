@@ -37,9 +37,22 @@ namespace MessengerClone.Converters
 
         public string GetFormattedDate(DateTime timestamp, string culture)
         {
+            // Create a CultureInfo instance for the specified culture
             CultureInfo cultureInfo = new CultureInfo(culture);
-            return timestamp.ToString("MMMM d", cultureInfo);
+        
+            // Check if the timestamp is older than one day
+            if ((DateTime.Now - timestamp).TotalDays > 1)
+            {
+                // Format for more than one day old: "NameOfMonth daynumber"
+                return timestamp.ToString("MMMM d", cultureInfo);
+            }
+            else
+            {
+                // Format for less than one day old: "Hour:minutes"
+                return timestamp.ToString("HH:mm", cultureInfo);
+            }
         }
+
         public static string CropStringWithEllipsis(string input, int maxLength)
         {
             if (string.IsNullOrEmpty(input))
